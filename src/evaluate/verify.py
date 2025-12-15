@@ -152,7 +152,7 @@ def main():
 
     # If no title provided, read A1 from all sheets and prompt user to choose
     if not subject_act_title:
-        golden_path = "golden-standard-test-dataset.xlsx"
+        golden_path = "gold-standard-test-dataset.xlsx"
         titles = read_a1_from_all_sheets(golden_path)
         if titles is None:
             return

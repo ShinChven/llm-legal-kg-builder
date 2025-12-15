@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Evaluate all Acts in the golden-standard Excel and print a compact table of results.
+"""Evaluate all Acts in the gold-standard Excel and print a compact table of results.
 
 This re-uses the verification logic from `src.evaluate.verification` and helpers in
 `src.evaluate.verify` where possible. It prints one row per Act with NER and RE
 precision/recall/F1.
 """
-"""Module-level: evaluate all Acts using a hardcoded golden-standard path.
+"""Module-level: evaluate all Acts using a hardcoded gold-standard path.
 """
 from typing import List, Dict, Tuple
 
@@ -50,7 +50,7 @@ def read_a1_from_all_sheets(golden_standard_path: str) -> List[str]:
 def evaluate_and_print_summary(golden_path: str):
     titles = read_a1_from_all_sheets(golden_path)
     if not titles:
-        console.print("No titles found in golden-standard file. Exiting.")
+        console.print("No titles found in gold-standard file. Exiting.")
         return
 
     # Build golden counts (Acts, Relations) per core Act directly from the Excel dataset
@@ -396,9 +396,9 @@ def print_terminology_explanation():
 
 
 def main():
-    # Hardcoded golden-standard testset path per user preference
+    # Hardcoded gold-standard testset path per user preference
     print_terminology_explanation()
-    evaluate_and_print_summary("golden-standard-test-dataset.xlsx")
+    evaluate_and_print_summary("gold-standard-test-dataset.xlsx")
 
 
 if __name__ == "__main__":

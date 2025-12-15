@@ -7,7 +7,7 @@ from src.re.normalization import normalize_for_comparison
 def verify_relationships(
     subject_act_title: str,
     extracted_relationships: Dict[str, List[str]],
-    golden_standard_path: str = "golden-standard-test-dataset.xlsx"
+    golden_standard_path: str = "gold-standard-test-dataset.xlsx"
 ) -> Dict[str, Any]:
     # The hardcoded xlsx file is the test dataset.
     # There are sheets in the xlsx, each is a manually labelled test set for a core act.
@@ -162,7 +162,7 @@ def verify_relationships(
 
 def evaluate_all(
     all_extracted_relationships: Dict[str, Dict[str, List[str]]],
-    golden_standard_path: str = "golden-standard-test-dataset.xlsx"
+    golden_standard_path: str = "gold-standard-test-dataset.xlsx"
 ) -> Dict[str, Any]:
     """
     Evaluates all extracted relationships for all subject Acts against a golden standard dataset.

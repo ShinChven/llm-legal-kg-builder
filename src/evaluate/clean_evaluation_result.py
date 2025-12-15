@@ -5,7 +5,7 @@ import tty
 import pandas as pd
 from src.db.db_connection import db_connection
 
-def get_subject_acts_from_golden_standard(golden_standard_path: str = "golden-standard-test-dataset.xlsx"):
+def get_subject_acts_from_golden_standard(golden_standard_path: str = "gold-standard-test-dataset.xlsx"):
     """Reads all subject act titles from the golden standard Excel file."""
     try:
         xls = pd.ExcelFile(golden_standard_path)
