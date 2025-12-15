@@ -1,8 +1,8 @@
 # NZ Legislation Relationship Extraction & Knowledge Graph
 
-This project is a comprehensive framework for building a **Legal Knowledge Graph** from New Zealand legislation. It utilizes **Large Language Models (LLMs)** (specifically Google Gemini via `google-genai`) to extract citations and relationships between Acts, constructing a rich graph database for analysis.
+This is an LLM-driven ensemble information extraction framework to construct legislation knowledge graphs.
 
-The system moves beyond simple keyword matching, employing generative AI to understand the context of references (e.g., "amends", "repeals", "cited by"). It then leverages graph algorithms (Leiden Community Detection, PageRank) to identify clusters of related legislation and influential Acts.
+The system moves beyond simple keyword matching, employing generative AI to understand the context of references (e.g., "amends", "repeals", "cited by") and to perform topic modeling and classification. It then leverages graph algorithms (Leiden Community Detection, PageRank) to identify clusters of related legislation and influential Acts.
 
 ## 🌟 Key Features
 
@@ -11,7 +11,7 @@ The system moves beyond simple keyword matching, employing generative AI to unde
 *   **Graph Analytics:**
     *   **Community Detection:** Implements the Leiden algorithm to discover thematic clusters of legislation.
     *   **Centrality Measures:** Calculates Weighted PageRank and Katz Centrality to find key nodes.
-*   **Topic Modeling:** Generates topics for legislative communities using LLMs.
+*   **Topic Classification:** Classifies legislation into official **Parliamentary Select Committee** categories and subject areas using LLMs. These classifications are aggregated to analyze the thematic composition of legislative communities.
 *   **Visualization:** Includes tools for 3D graph visualization and static statistical plots.
 *   **Dual-Database Architecture:** Uses **PostgreSQL** for relational storage and **Neo4j** for graph traversals.
 
@@ -28,73 +28,39 @@ The pipeline consists of four main stages:
 
 ### Prerequisites
 
-*   **Python 3.9+**
+*   **Python 3.12+**
 *   **PostgreSQL** (for storing raw texts and extracted relationships)
 *   **Neo4j** (for the knowledge graph)
 *   **Google Gemini API Key** (for LLM extraction)
 
-### Installation
-
-This project manages dependencies using [Poetry](https://python-poetry.org/).
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/yourusername/nzlegislation-subscribe.git
-    cd nzlegislation-subscribe
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    poetry install
-    ```
-
-3.  **Environment Setup:**
-    Create a `.env` file in the root directory (see `.env.example` if available) and add your credentials:
-    ```env
-    # Database Config
-    POSTGRES_DB=...
-    POSTGRES_USER=...
-    POSTGRES_PASSWORD=...
-    POSTGRES_HOST=localhost
-    
-    # Neo4j Config
-    NEO4J_URI=bolt://localhost:7687
-    NEO4J_USER=neo4j
-    NEO4J_PASSWORD=...
-    
-    # LLM Config
-    GOOGLE_API_KEY=...
-    ```
-
 ## 📖 Usage
 
-### 1. Data Ingestion & Cleaning
-Scripts located in `src/datasets/` handle the downloading and normalization of legislative text.
-
-```bash
-# Example: Run the scraper (check specific script arguments)
-python -m src.datasets.scraper
-```
-
-### 2. Relationship Extraction
+### 1. Relationship Extraction
 The core extraction logic resides in `src/re/`.
+
+*   `src/re/extractor_llm.py`: The core LLM-based relationship extraction module.
+*   `src/re/extractor_llm_run.py`: A **single-shot** runner that processes documents once for simple extraction.
+*   `src/re/extractor_llm_run_heavy.py`: An **ensemble** runner that employs a multi-pass strategy (NER followed by Relationship Extraction verification) for high-accuracy information extraction.
 
 **Configuration:**
 Before running, ensure you have set the `CORE_ACT` variable in your `.env` file to the specific Act title you wish to process (or leave it blank/configure the script to process all).
 
 ```bash
-# Run LLM-based extraction
+# Run LLM-based extraction (single-shot, faster)
 python -m src.re.extractor_llm_run
+
+# Run LLM-based extraction (ensemble, high accuracy)
+python -m src.re.extractor_llm_run_heavy
 ```
 
-### 3. Graph Construction
+### 2. Graph Construction
 Once relationships are stored in Postgres, build the Neo4j graph:
 
 ```bash
 python -m src.graph.neo4j_graph_construction
 ```
 
-### 4. Graph Analytics
+### 3. Graph Analytics
 Run algorithms to analyze the graph structure:
 
 ```bash
@@ -105,14 +71,19 @@ python -m src.graph.leiden_community_detection
 python -m src.graph.weighted_page_rank
 ```
 
-### 5. Topic Modeling
-Generate topics for the discovered communities:
+### 4. Topic Classification
+Classify Acts into Parliamentary Select Committee topics.
 
 ```bash
-python -m src.topic.run
+# Run topic classification for a single Act
+# Set TOPIC_ACT (or CORE_ACT) in .env or via environment variable
+TOPIC_ACT="Income Tax Act 2007" python -m src.topic.topic_extractor_llm_run
+
+# Run batch classification for all unprocessed Acts
+python -m src.topic.topic_extractor_llm_run_batch
 ```
 
-### 6. Visualization
+### 5. Visualization
 Generate charts and visualizations in `outputs/`:
 
 ```bash
@@ -127,8 +98,15 @@ python -m src.analytics.visualize_relationships_static
 *   `src/evaluate/`: Evaluation metrics for extraction quality.
 *   `src/graph/`: Neo4j interaction and graph algorithms.
 *   `src/re/`: Relationship Extraction (LLM & XML based).
+    *   `extractor_llm.py`: Core module for LLM-based relationship extraction.
+    *   `extractor_llm_run.py`: Single-shot script for simple, one-pass extraction.
+    *   `extractor_llm_run_heavy.py`: Ensemble script for high-accuracy, multi-pass extraction (NER + verification).
 *   `src/similarity/`: Vector embedding and similarity search.
-*   `src/topic/`: Topic modeling and categorization.
+*   `src/topic/`: Topic Classification (Select Committees).
+    *   `topic_extractor_llm.py`: Core module for classifying Acts into committee topics.
+    *   `topic_extractor_llm_run.py`: Runner for single-Act classification.
+    *   `topic_extractor_llm_run_batch.py`: Runner for batch classification of all Acts.
+    *   `categories.py`: Definitions of Parliamentary Select Committees and their topics.
 *   `outputs/`: Generated graphs, plots, and reports.
 
 ## 📄 License
