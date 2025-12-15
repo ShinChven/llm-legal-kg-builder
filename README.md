@@ -2,7 +2,7 @@
 
 This is an LLM-driven ensemble information extraction framework to construct legislation knowledge graphs.
 
-The system moves beyond simple keyword matching, employing generative AI to understand the context of references (e.g., "amends", "repeals", "cited by") and to perform topic modeling and classification. It then leverages graph algorithms (Leiden Community Detection, PageRank) to identify clusters of related legislation and influential Acts.
+This framework provides a series of utilities that move beyond simple keyword matching, employing generative AI to understand the context of references (e.g., "amends", "repeals", "cited by") and to perform topic modeling and classification. It then leverages graph algorithms (Leiden Community Detection, PageRank) to identify clusters of related legislation and influential Acts.
 
 ## 🌟 Key Features
 
@@ -111,4 +111,6 @@ python -m src.analytics.visualize_relationships_static
 
 ## 📄 License
 
-[License Information Here]
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2025 Xinchun Zhang <shinchven@gmail.com>

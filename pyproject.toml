@@ -2,7 +2,7 @@
 name = "nzlegislation-subscribe"
 version = "0.1.0"
 description = "A scraper to index file urls of New Zealand Acts."
-authors = ["ShinChven <shinchven@gmail.com>"]
+authors = ["Xinchun Zhang <shinchven@gmail.com>"]
 packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
