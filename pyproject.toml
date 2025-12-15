@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "nzlegislation-subscribe"
+version = "0.1.0"
+description = "A scraper to index file urls of New Zealand Acts."
+authors = ["ShinChven <shinchven@gmail.com>"]
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+psycopg2-binary = "^2.9.10"
+selenium = "^4.34.2"
+webdriver-manager = "^4.0.2"
+python-dotenv = "^1.1.1"
+beautifulsoup4 = "^4.13.4"
+requests = "^2.32.4"
+lxml = "^6.0.0"
+google-genai = "^1.29.0"
+pyyaml = "^6.0.2"
+pandas = "^2.3.1"
+openpyxl = "^3.1.5"
+pypdf2 = "^3.0.1"
+pyvis = "^0.3.2"
+graphviz = "^0.21"
+neo4j = "^6.0.2"
+rich = '^14.1.0'
+langextract = "^1.0.8"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
