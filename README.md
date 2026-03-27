@@ -4,6 +4,8 @@ This is an LLM-driven ensemble information extraction framework to construct leg
 
 This framework provides a series of utilities that move beyond simple keyword matching, employing generative AI to understand the context of references (e.g., "amends", "repeals", "cited by") and to perform topic modeling and classification. It then leverages graph algorithms (Leiden Community Detection, PageRank) to identify clusters of related legislation and influential Acts.
 
+![](/ensemble-extraction-framework.jpeg)
+
 ## 🌟 Key Features
 
 *   **LLM-Driven Extraction:** Uses Google's Gemini models to parse legal text and identify complex relationships between statutes.
